@@ -4,6 +4,9 @@ module.exports = {
   printWidth: 100,
   proseWrap: 'never',
   endOfLine: 'lf',
+  useTabs: false,
+  tabWidth: 2,
+  semi: false,
   overrides: [
     {
       files: '.prettierrc',

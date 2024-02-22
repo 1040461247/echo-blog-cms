@@ -23,19 +23,38 @@ export default [
     ],
   },
   {
-    name: 'dashboard',
-    icon: 'dashboard',
-    path: '/dashboard',
-    component: './Dashboard',
+    path: '/',
+    redirect: '/dashboard',
   },
   {
     path: '/article',
     redirect: '/article/article-list',
   },
   {
+    path: '/friend',
+    redirect: '/friend/friend-list',
+  },
+  {
+    path: '/system',
+    redirect: '/system/system-user',
+  },
+  {
+    path: '*',
+    layout: false,
+    component: './404',
+  },
+  {
+    name: 'dashboard',
+    icon: 'dashboard',
+    path: '/dashboard',
+    component: './Dashboard',
+    access: 'dashboard',
+  },
+  {
     name: 'article',
     icon: 'readOutlined',
     path: '/article',
+    access: 'article',
     routes: [
       {
         name: 'article-list',
@@ -59,27 +78,28 @@ export default [
     icon: 'folderOutlined',
     path: '/category',
     component: './Category',
+    access: 'category',
   },
   {
     name: 'tag',
     icon: 'tag',
     path: '/tag',
     component: './Tag',
+    access: 'tag',
   },
   {
     name: 'comment',
     icon: 'comment',
     path: '/comment',
     component: './Comment',
+    access: 'comment',
   },
-  {
-    path: '/friend',
-    redirect: '/friend/friend-list',
-  },
+
   {
     name: 'friend',
     icon: 'linkOutlined',
     path: '/friend',
+    access: 'friend',
     routes: [
       {
         name: 'friend-list',
@@ -94,13 +114,10 @@ export default [
     ],
   },
   {
-    path: '/system',
-    redirect: '/system/system-user',
-  },
-  {
     name: 'system',
     icon: 'settingOutlined',
     path: '/system',
+    access: 'system',
     routes: [
       {
         name: 'system-user',
@@ -124,14 +141,6 @@ export default [
     icon: 'fileTextOutlined',
     path: '/operation-log',
     component: './OperationLog',
+    access: 'operation-log',
   },
-  {
-    path: '/',
-    redirect: '/dashboard',
-  },
-  {
-    path: '*',
-    layout: false,
-    component: './404',
-  },
-];
+]
