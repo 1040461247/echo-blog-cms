@@ -48,13 +48,13 @@ export default [
     icon: 'dashboard',
     path: '/dashboard',
     component: './Dashboard',
-    access: 'dashboard',
+    access: 'normalRouteFilter',
   },
   {
     name: 'article',
     icon: 'readOutlined',
     path: '/article',
-    access: 'article',
+    access: 'normalRouteFilter',
     routes: [
       {
         name: 'article-list',
@@ -78,28 +78,28 @@ export default [
     icon: 'folderOutlined',
     path: '/category',
     component: './Category',
-    access: 'category',
+    access: 'normalRouteFilter',
   },
   {
     name: 'tag',
     icon: 'tag',
     path: '/tag',
     component: './Tag',
-    access: 'tag',
+    access: 'normalRouteFilter',
   },
   {
     name: 'comment',
     icon: 'comment',
     path: '/comment',
     component: './Comment',
-    access: 'comment',
+    access: 'normalRouteFilter',
   },
 
   {
     name: 'friend',
     icon: 'linkOutlined',
     path: '/friend',
-    access: 'friend',
+    access: 'normalRouteFilter',
     routes: [
       {
         name: 'friend-list',
@@ -117,7 +117,7 @@ export default [
     name: 'system',
     icon: 'settingOutlined',
     path: '/system',
-    access: 'system',
+    access: 'normalRouteFilter',
     routes: [
       {
         name: 'system-user',
@@ -141,6 +141,6 @@ export default [
     icon: 'fileTextOutlined',
     path: '/operation-log',
     component: './OperationLog',
-    access: 'operation-log',
+    access: 'normalRouteFilter-log',
   },
 ]

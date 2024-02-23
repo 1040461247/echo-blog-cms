@@ -1,6 +1,6 @@
-import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
-import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { Footer } from '@/components'
+import { login } from '@/services/ant-design-pro/api'
+import { getFakeCaptcha } from '@/services/ant-design-pro/login'
 import {
   AlipayCircleOutlined,
   LockOutlined,
@@ -8,19 +8,14 @@ import {
   TaobaoCircleOutlined,
   UserOutlined,
   WeiboCircleOutlined,
-} from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
-import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max';
-import { Alert, message, Tabs } from 'antd';
-import Settings from '../../../../config/defaultSettings';
-import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
-import { createStyles } from 'antd-style';
+} from '@ant-design/icons'
+import { LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-components'
+import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max'
+import { Alert, message, Tabs } from 'antd'
+import Settings from '../../../../config/defaultSettings'
+import React, { useState } from 'react'
+import { flushSync } from 'react-dom'
+import { createStyles } from 'antd-style'
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -55,11 +50,11 @@ const useStyles = createStyles(({ token }) => {
         "url('https://mdn.alipayobjects.com/yuyan_qk0oxh/afts/img/V-_oS6r-i7wAAAAAAAAAAAAAFl94AQBr')",
       backgroundSize: '100% 100%',
     },
-  };
-});
+  }
+})
 
 const ActionIcons = () => {
-  const { styles } = useStyles();
+  const { styles } = useStyles()
 
   return (
     <>
@@ -67,21 +62,21 @@ const ActionIcons = () => {
       <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.action} />
       <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.action} />
     </>
-  );
-};
+  )
+}
 
 const Lang = () => {
-  const { styles } = useStyles();
+  const { styles } = useStyles()
 
   return (
     <div className={styles.lang} data-lang>
       {SelectLang && <SelectLang />}
     </div>
-  );
-};
+  )
+}
 
 const LoginMessage: React.FC<{
-  content: string;
+  content: string
 }> = ({ content }) => {
   return (
     <Alert
@@ -92,56 +87,56 @@ const LoginMessage: React.FC<{
       type="error"
       showIcon
     />
-  );
-};
+  )
+}
 
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
-  const { styles } = useStyles();
-  const intl = useIntl();
+  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({})
+  const [type, setType] = useState<string>('account')
+  const { initialState, setInitialState } = useModel('@@initialState')
+  const { styles } = useStyles()
+  const intl = useIntl()
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
+    const userInfo = await initialState?.fetchUserInfo?.()
     if (userInfo) {
       flushSync(() => {
         setInitialState((s) => ({
           ...s,
           currentUser: userInfo,
-        }));
-      });
+        }))
+      })
     }
-  };
+  }
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       // 登录
-      const msg = await login({ ...values, type });
+      const msg = await login({ ...values, type })
       if (msg.status === 'ok') {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        return;
+        })
+        message.success(defaultLoginSuccessMessage)
+        await fetchUserInfo()
+        const urlParams = new URL(window.location.href).searchParams
+        history.push(urlParams.get('redirect') || '/')
+        return
       }
-      console.log(msg);
+      console.log(msg)
       // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
+      setUserLoginState(msg)
     } catch (error) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
-      });
-      console.log(error);
-      message.error(defaultLoginFailureMessage);
+      })
+      console.log(error)
+      message.error(defaultLoginFailureMessage)
     }
-  };
-  const { status, type: loginType } = userLoginState;
+  }
+  const { status, type: loginType } = userLoginState
 
   return (
     <div className={styles.container}>
@@ -181,7 +176,7 @@ const Login: React.FC = () => {
             <ActionIcons key="icons" />,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as API.LoginParams)
           }}
         >
           <Tabs
@@ -314,12 +309,12 @@ const Login: React.FC = () => {
                     return `${count} ${intl.formatMessage({
                       id: 'pages.getCaptchaSecondText',
                       defaultMessage: '获取验证码',
-                    })}`;
+                    })}`
                   }
                   return intl.formatMessage({
                     id: 'pages.login.phoneLogin.getVerificationCode',
                     defaultMessage: '获取验证码',
-                  });
+                  })
                 }}
                 name="captcha"
                 rules={[
@@ -336,11 +331,11 @@ const Login: React.FC = () => {
                 onGetCaptcha={async (phone) => {
                   const result = await getFakeCaptcha({
                     phone,
-                  });
+                  })
                   if (!result) {
-                    return;
+                    return
                   }
-                  message.success('获取验证码成功！验证码为：1234');
+                  message.success('获取验证码成功！验证码为：1234')
                 }}
               />
             </>
@@ -365,7 +360,7 @@ const Login: React.FC = () => {
       </div>
       <Footer />
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login
