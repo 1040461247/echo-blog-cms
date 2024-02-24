@@ -2,12 +2,14 @@ import { Footer, Question, SelectLang, AvatarDropdown, AvatarName } from '@/comp
 import { LinkOutlined } from '@ant-design/icons'
 import type { Settings as LayoutSettings } from '@ant-design/pro-components'
 import { SettingDrawer } from '@ant-design/pro-components'
-import type { RunTimeLayoutConfig } from '@umijs/max'
+import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max'
 import { history, Link } from '@umijs/max'
 import defaultSettings from '../config/defaultSettings'
 import { errorConfig } from './requestErrorConfig'
-import { currentUser as queryCurrentUser } from '@/services/ant-design-pro/api'
 import React from 'react'
+import { TGetMenusByUserIdRes, getMenusByUserId, getUserInfo } from './services'
+import cache from './utils/cache'
+import { USER_AUTH } from './constants'
 
 const isDev = process.env.NODE_ENV === 'development'
 const loginPath = '/user/login'
@@ -17,27 +19,41 @@ const loginPath = '/user/login'
  * */
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>
-  currentUser?: API.CurrentUser
+  currentUser?: any
   loading?: boolean
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>
+  fetchUserInfo?: () => Promise<any | undefined>
+  fetchMenuInfo?: () => Promise<any | undefined>
+  userMenus?: TGetMenusByUserIdRes
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      })
+      const msg = await getUserInfo(cache.getCache(USER_AUTH).id)
       return msg.data
     } catch (error) {
       history.push(loginPath)
     }
     return undefined
   }
+
+  const fetchMenuInfo = async () => {
+    try {
+      const msg = await getMenusByUserId(cache.getCache(USER_AUTH).id)
+      return msg.data
+    } catch (error) {
+      history.push(loginPath)
+    }
+    return undefined
+  }
+
   // 如果不是登录页面，执行
   const { location } = history
   if (location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo()
+    const userMenus = await fetchMenuInfo()
     return {
       fetchUserInfo,
+      fetchMenuInfo,
+      userMenus,
       currentUser,
       settings: defaultSettings as Partial<LayoutSettings>,
     }
@@ -51,17 +67,9 @@ export async function getInitialState(): Promise<{
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
-    // 动态菜单
-    // menu: {
-    //   params: initialState?.currentUser,
-    //   request: async () => {
-    //     console.log(initialState?.currentUser?.menuData || [])
-    //     return initialState?.currentUser?.menuData || []
-    //   },
-    // },
     actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
+      src: initialState?.currentUser?.avatar_url,
       title: <AvatarName />,
       render: (_, avatarChildren) => {
         return <AvatarDropdown>{avatarChildren}</AvatarDropdown>
@@ -141,6 +149,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-export const request = {
+export const request: RequestConfig = {
+  timeout: 5000,
+  baseURL: process.env.API_BASE_URL ?? 'http://localhost:8000',
   ...errorConfig,
 }

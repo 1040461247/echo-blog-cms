@@ -1,23 +1,23 @@
+import { TGetMenusByUserIdRes } from './services'
+
 /**
  * @see https://umijs.org/docs/max/access#access
  * */
-export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
-  const { currentUser } = initialState ?? {}
-  const menuData = currentUser?.menuData
+export default function access(initialState: { userMenus?: TGetMenusByUserIdRes } | undefined) {
+  const userMenus = initialState?.userMenus ?? []
+  const authObj = {}
 
-  if (menuData) {
-    return {
+  if (userMenus) {
+    Object.assign(authObj, {
       normalRouteFilter: (route: any) => {
-        menuData.forEach((item) => {
-          if (item.name === route.name) return true
-
-          const parentName = menuData.find((value) => value.id === item.parentId)
-          if (parentName === route.name) return true
-        })
+        for (const menu of userMenus) {
+          if (menu.name === route.name) {
+            return true
+          }
+        }
       },
-      subRouteFilter: (route: any) => {},
-    }
+    })
   }
 
-  return {}
+  return authObj
 }
