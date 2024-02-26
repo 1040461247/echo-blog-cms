@@ -14,13 +14,13 @@ export interface ILoginRes {
 export interface IGetUserInfoRes {
   id: number
   name: string
-  avatar_url: string
-  phone_num: string
-  browser_info: string
-  os_info: string
-  ip_address: string
-  update_time: string
-  create_time: string
+  avatarUrl: string
+  phoneNum: string
+  browserInfo: string
+  osInfo: string
+  ipAddress: string
+  updateTime: string
+  createTime: string
 }
 
 // Services
