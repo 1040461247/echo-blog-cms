@@ -1,3 +1,5 @@
+@import url('./assets//styles/cusPreflight.css');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -1,4 +1,5 @@
 import { request } from '@umijs/max'
+import { AM_MENU, GET } from '../constants'
 
 // Types
 export type TGetMenusByUserIdRes = {
@@ -9,7 +10,7 @@ export type TGetMenusByUserIdRes = {
 
 // Services
 export async function getMenusByUserId(userId: number) {
-  return await request<API.BaseStructure<TGetMenusByUserIdRes>>(`/menu/${userId}`, {
-    method: 'GET',
+  return await request<API.BaseStructure<TGetMenusByUserIdRes>>(`${AM_MENU}/${userId}`, {
+    method: GET,
   })
 }

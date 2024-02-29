@@ -4,7 +4,7 @@ import { ProFormDatePicker, ProFormText, QueryFilter } from '@ant-design/pro-com
 const ALQueryFilter: React.FC = () => {
   return (
     <div className="al-query-filter">
-      <QueryFilter defaultCollapsed split>
+      <QueryFilter defaultCollapsed={false} split>
         <ProFormText name="name" label="应用名称" />
         <ProFormDatePicker name="createDate" label="创建时间" />
         <ProFormText name="status" label="应用状态" />

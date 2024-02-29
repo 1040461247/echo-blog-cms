@@ -1,4 +1,5 @@
 import { request } from '@umijs/max'
+import { AM_USERS, GET, POST } from '../constants'
 
 // Types
 export interface ILoginParams {
@@ -26,13 +27,13 @@ export interface IGetUserInfoRes {
 // Services
 export async function login(fetchData: ILoginParams) {
   return await request<API.BaseStructure<ILoginRes>>('/cms-login', {
-    method: 'POST',
+    method: POST,
     data: fetchData,
   })
 }
 
 export async function getUserInfo(userId: number) {
-  return await request<API.BaseStructure<IGetUserInfoRes>>(`/users/${userId}`, {
-    method: 'GET',
+  return await request<API.BaseStructure<IGetUserInfoRes>>(`${AM_USERS}/${userId}`, {
+    method: GET,
   })
 }
