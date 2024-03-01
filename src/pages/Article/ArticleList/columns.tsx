@@ -36,7 +36,7 @@ const columns: ProColumns<IArticle>[] = [
     title: '分类',
     dataIndex: ['category', 'name'],
     ellipsis: true,
-    key: 'categories',
+    key: 'categoryId',
     valueType: 'select',
     request: async () => {
       const { data } = await getCategoryList()
@@ -77,7 +77,6 @@ const columns: ProColumns<IArticle>[] = [
     onFilter: true,
     valueType: 'select',
     valueEnum: {
-      all: { text: '全部', status: 'Default' },
       0: {
         text: '否',
         status: 'Error',
@@ -96,7 +95,6 @@ const columns: ProColumns<IArticle>[] = [
     tooltip: '文章发布状态',
     valueType: 'select',
     valueEnum: {
-      all: { text: '全部', status: 'Default' },
       0: {
         text: '未发布',
         status: 'Error',
@@ -115,7 +113,6 @@ const columns: ProColumns<IArticle>[] = [
     tooltip: '文章可见范围',
     valueType: 'select',
     valueEnum: {
-      all: { text: '全部', status: 'Default' },
       0: {
         text: '仅自己可见',
         status: 'Error',
@@ -128,7 +125,7 @@ const columns: ProColumns<IArticle>[] = [
   },
   {
     title: '创建时间',
-    key: 'showTime',
+    key: 'createTime',
     dataIndex: 'createTime',
     valueType: 'dateTime',
     sorter: true,
@@ -141,16 +138,20 @@ const columns: ProColumns<IArticle>[] = [
     hideInTable: true,
     search: {
       transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
+        if (value) {
+          return {
+            createTime: {
+              startTime: value[0],
+              endTime: value[1],
+            },
+          }
         }
       },
     },
   },
   {
     title: '更新时间',
-    key: 'showTime',
+    key: 'updateTime',
     dataIndex: 'updateTime',
     valueType: 'dateTime',
     sorter: true,
@@ -163,9 +164,13 @@ const columns: ProColumns<IArticle>[] = [
     hideInTable: true,
     search: {
       transform: (value) => {
-        return {
-          startTime: value[0],
-          endTime: value[1],
+        if (value) {
+          return {
+            updateTime: {
+              startTime: value[0],
+              endTime: value[1],
+            },
+          }
         }
       },
     },

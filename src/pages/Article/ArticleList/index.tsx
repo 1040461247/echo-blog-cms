@@ -1,8 +1,8 @@
 import { IArticle, getArticleList } from '@/services/modules/articles.service'
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons'
+import { PlusOutlined } from '@ant-design/icons'
 import type { ActionType } from '@ant-design/pro-components'
 import { ProTable, type ColumnsState } from '@ant-design/pro-components'
-import { Button, Dropdown } from 'antd'
+import { Button } from 'antd'
 import { useRef, useState } from 'react'
 import columns from './columns'
 
@@ -13,7 +13,7 @@ const ArticleList: React.FC = () => {
       show: false,
       order: 0,
     },
-    categories: {
+    categoryId: {
       show: false,
       order: 0,
     },
@@ -24,12 +24,11 @@ const ArticleList: React.FC = () => {
       columns={columns}
       actionRef={actionRef}
       cardBordered
-      request={async (params) => {
-        const { current, pageSize } = params
-        return await getArticleList(current, pageSize)
+      request={async (params, sort) => {
+        return await getArticleList(params, sort)
       }}
       editable={{
-        type: 'multiple',
+        type: 'single',
       }}
       columnsState={{
         value: columnsStateMap,
@@ -45,12 +44,12 @@ const ArticleList: React.FC = () => {
         },
       }}
       form={{
-        // 由于配置了 transform，提交的参与与定义的不同这里需要转化一下
         syncToUrl: (values, type) => {
           if (type === 'get') {
             return {
               ...values,
-              created_at: [values.startTime, values.endTime],
+              createTime: null,
+              updateTime: null,
             }
           }
           return values
@@ -58,9 +57,6 @@ const ArticleList: React.FC = () => {
       }}
       pagination={{
         pageSize: 5,
-        onChange: (page) => {
-          console.log(page)
-        },
       }}
       dateFormatter="string"
       headerTitle="文章列表"
@@ -75,29 +71,6 @@ const ArticleList: React.FC = () => {
         >
           新建
         </Button>,
-        <Dropdown
-          key="menu"
-          menu={{
-            items: [
-              {
-                label: '1st item',
-                key: '1',
-              },
-              {
-                label: '2nd item',
-                key: '1',
-              },
-              {
-                label: '3rd item',
-                key: '1',
-              },
-            ],
-          }}
-        >
-          <Button>
-            <EllipsisOutlined />
-          </Button>
-        </Dropdown>,
       ]}
     />
   )

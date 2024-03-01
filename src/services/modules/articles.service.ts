@@ -1,6 +1,6 @@
-import { pageToOffset } from '@/utils/pageToOffset'
 import { request } from '@umijs/max'
 import { AM_ARTICLES, GET } from '../constants'
+import { SortOrder } from 'antd/es/table/interface'
 
 // Types
 export interface IArticle {
@@ -25,10 +25,30 @@ export interface IArticle {
   tags: { id: number; name: string }[]
 }
 
-export async function getArticleList(page: number = 1, size: number = 10) {
-  const { offset, limit } = pageToOffset(page, size)
-  return await request<API.BaseStructure<IArticle[]>>(`${AM_ARTICLES}/all-status`, {
+export type TArticleState = '0' | '1'
+export type TArticleVisibility = '0' | '1'
+export type TArticleIsSticky = '0' | '1'
+interface IDateRange {
+  startTime: string
+  endTime: string
+}
+
+export interface IArticleListParams {
+  current?: number
+  pageSize?: number
+  title?: string
+  category?: string
+  tags?: string[]
+  state?: TArticleState
+  visibility?: TArticleVisibility
+  isSticky?: TArticleIsSticky
+  createTime?: IDateRange
+  endTime?: IDateRange
+}
+
+export async function getArticleList(params: IArticleListParams, sort: Record<string, SortOrder>) {
+  return await request<API.BaseStructure<IArticle[]>>(`${AM_ARTICLES}/query`, {
     method: GET,
-    params: { offset, limit },
+    params: { ...params, sort },
   })
 }

@@ -1,8 +1,9 @@
 export default function dataMapOptions(data: any[], field: string) {
   const optionsArr = []
   for (const item of data) {
-    const val = item[field]
-    optionsArr.push({ label: val, value: val })
+    const label = item[field]
+    const value = item.id ?? item[field]
+    optionsArr.push({ label, value })
   }
   return optionsArr
 }
