@@ -1,4 +1,25 @@
-﻿/**
+﻿import {
+  ARTICLE_ATTACHMENT_PATH,
+  ARTICLE_CREATE_PATH,
+  ARTICLE_LIST_PATH,
+  ARTICLE_PATH,
+  CATEGORY_PATH,
+  COMMENT_PATH,
+  DASHBOARD_PATH,
+  FRIEND_APPLY_PATH,
+  FRIEND_LIST_PATH,
+  FRIEND_PATH,
+  OPERATION_LOG_PATH,
+  SYSTEM_PATH,
+  SYSTEM_RESOURCE_PATH,
+  SYSTEM_ROLE_PATH,
+  SYSTEM_USER_PATH,
+  TAG_PATH,
+  USER_LOGIN_PATH,
+  USER_PATH,
+} from '../src/constants'
+
+/**
  * @name umi 的路由配置
  * @description 只支持 path,component,routes,redirect,wrappers,name,icon 的配置
  * @param path  path 只支持两种占位符配置，第一种是动态参数 :id 的形式，第二种是 * 通配符，通配符只能出现路由字符串的最后。
@@ -12,31 +33,20 @@
  */
 export default [
   {
-    path: '/user',
-    layout: false,
-    routes: [
-      {
-        name: 'login',
-        path: '/user/login',
-        component: './User/Login',
-      },
-    ],
-  },
-  {
     path: '/',
-    redirect: '/dashboard',
+    redirect: DASHBOARD_PATH,
   },
   {
-    path: '/article',
-    redirect: '/article/article-list',
+    path: ARTICLE_PATH,
+    redirect: ARTICLE_LIST_PATH,
   },
   {
-    path: '/friend',
-    redirect: '/friend/friend-list',
+    path: FRIEND_PATH,
+    redirect: FRIEND_LIST_PATH,
   },
   {
-    path: '/system',
-    redirect: '/system/system-user',
+    path: SYSTEM_PATH,
+    redirect: SYSTEM_USER_PATH,
   },
   {
     path: '*',
@@ -44,33 +54,44 @@ export default [
     component: './404',
   },
   {
+    path: USER_PATH,
+    layout: false,
+    routes: [
+      {
+        name: 'login',
+        path: USER_LOGIN_PATH,
+        component: './User/Login',
+      },
+    ],
+  },
+  {
     name: 'dashboard',
     icon: 'dashboard',
-    path: '/dashboard',
+    path: DASHBOARD_PATH,
     component: './Dashboard',
     access: 'normalRouteFilter',
   },
   {
     name: 'article',
     icon: 'readOutlined',
-    path: '/article',
+    path: ARTICLE_PATH,
     access: 'normalRouteFilter',
     routes: [
       {
         name: 'article-list',
-        path: 'article-list',
+        path: ARTICLE_LIST_PATH,
         component: './Article/ArticleList',
         access: 'normalRouteFilter',
       },
       {
         name: 'create-article',
-        path: 'create-article',
+        path: ARTICLE_CREATE_PATH,
         component: './Article/CreateArticle',
         access: 'normalRouteFilter',
       },
       {
         name: 'article-attachment',
-        path: 'article-attachment',
+        path: ARTICLE_ATTACHMENT_PATH,
         component: './Article/ArticleAttachment',
         access: 'normalRouteFilter',
       },
@@ -79,21 +100,21 @@ export default [
   {
     name: 'category',
     icon: 'folderOutlined',
-    path: '/category',
+    path: CATEGORY_PATH,
     component: './Category',
     access: 'normalRouteFilter',
   },
   {
     name: 'tag',
     icon: 'tag',
-    path: '/tag',
+    path: TAG_PATH,
     component: './Tag',
     access: 'normalRouteFilter',
   },
   {
     name: 'comment',
     icon: 'comment',
-    path: '/comment',
+    path: COMMENT_PATH,
     component: './Comment',
     access: 'normalRouteFilter',
   },
@@ -101,18 +122,18 @@ export default [
   {
     name: 'friend',
     icon: 'linkOutlined',
-    path: '/friend',
+    path: FRIEND_PATH,
     access: 'normalRouteFilter',
     routes: [
       {
         name: 'friend-list',
-        path: 'friend-list',
+        path: FRIEND_LIST_PATH,
         component: './Friend/FriendList',
         access: 'normalRouteFilter',
       },
       {
         name: 'friend-apply',
-        path: 'friend-apply',
+        path: FRIEND_APPLY_PATH,
         component: './Friend/FriendApply',
         access: 'normalRouteFilter',
       },
@@ -121,24 +142,24 @@ export default [
   {
     name: 'system',
     icon: 'settingOutlined',
-    path: '/system',
+    path: SYSTEM_PATH,
     access: 'normalRouteFilter',
     routes: [
       {
         name: 'system-user',
-        path: 'system-user',
+        path: SYSTEM_USER_PATH,
         component: './System/SystemUser',
         access: 'normalRouteFilter',
       },
       {
         name: 'system-role',
-        path: 'system-role',
+        path: SYSTEM_ROLE_PATH,
         component: './System/SystemRole',
         access: 'normalRouteFilter',
       },
       {
         name: 'system-resource',
-        path: 'system-resource',
+        path: SYSTEM_RESOURCE_PATH,
         component: './System/SystemResource',
         access: 'normalRouteFilter',
       },
@@ -147,7 +168,7 @@ export default [
   {
     name: 'operation-log',
     icon: 'fileTextOutlined',
-    path: '/operation-log',
+    path: OPERATION_LOG_PATH,
     component: './OperationLog',
     access: 'normalRouteFilter',
   },
