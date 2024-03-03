@@ -1,8 +1,6 @@
-import { IArticle, getArticleList } from '@/services/modules/articles.service'
-import { PlusOutlined } from '@ant-design/icons'
+import { IArticle, getArticleList, updateArticleById } from '@/services/modules/articles.service'
 import type { ActionType } from '@ant-design/pro-components'
 import { ProTable, type ColumnsState } from '@ant-design/pro-components'
-import { Button } from 'antd'
 import { useRef, useState } from 'react'
 import columns from './columns'
 
@@ -29,6 +27,11 @@ const ArticleList: React.FC = () => {
       }}
       editable={{
         type: 'single',
+        onSave: (_, record) => {
+          const { isSticky, state, visibility } = record
+          const modifiedData = { isSticky, state, visibility }
+          return updateArticleById(record.id, modifiedData)
+        },
       }}
       columnsState={{
         value: columnsStateMap,
@@ -37,6 +40,7 @@ const ArticleList: React.FC = () => {
       rowKey="id"
       search={{
         labelWidth: 'auto',
+        defaultCollapsed: false,
       }}
       options={{
         setting: {
@@ -60,18 +64,6 @@ const ArticleList: React.FC = () => {
       }}
       dateFormatter="string"
       headerTitle="文章列表"
-      toolBarRender={() => [
-        <Button
-          key="button"
-          icon={<PlusOutlined />}
-          onClick={() => {
-            actionRef.current?.reload()
-          }}
-          type="primary"
-        >
-          新建
-        </Button>,
-      ]}
     />
   )
 }

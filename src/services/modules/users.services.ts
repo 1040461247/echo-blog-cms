@@ -1,5 +1,6 @@
 import { request } from '@umijs/max'
 import { AM_USERS, GET, POST } from '../constants'
+import getAuthorization from '@/utils/getAuthorization'
 
 // Types
 export interface ILoginParams {
@@ -24,11 +25,26 @@ export interface IGetUserInfoRes {
   createTime: string
 }
 
+interface IAuthorizedRes {
+  id: number
+  iat: number
+  exp: number
+}
+
 // Services
 export async function login(fetchData: ILoginParams) {
   return await request<API.BaseStructure<ILoginRes>>('/cms-login', {
     method: POST,
     data: fetchData,
+  })
+}
+
+export async function authorized() {
+  return await request<API.BaseStructure<IAuthorizedRes>>('/cms-authorized', {
+    method: GET,
+    headers: {
+      Authorization: getAuthorization(),
+    },
   })
 }
 

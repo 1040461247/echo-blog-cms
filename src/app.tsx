@@ -7,7 +7,7 @@ import { history, Link } from '@umijs/max'
 import defaultSettings from '../config/defaultSettings'
 import { errorConfig } from './requestErrorConfig'
 import React from 'react'
-import { TGetMenusByUserIdRes, getMenusByUserId, getUserInfo } from './services'
+import { TGetMenusByUserIdRes, authorized, getMenusByUserId, getUserInfo } from './services'
 import cache from './utils/cache'
 import { USER_AUTH } from './constants'
 
@@ -27,8 +27,11 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      const msg = await getUserInfo(cache.getCache(USER_AUTH).id)
-      return msg.data
+      const { data } = await authorized()
+      if (data) {
+        const msg = await getUserInfo(cache.getCache(USER_AUTH).id)
+        return msg.data
+      }
     } catch (error) {
       history.push(loginPath)
     }
@@ -48,8 +51,13 @@ export async function getInitialState(): Promise<{
   // 如果不是登录页面，执行
   const { location } = history
   if (location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo()
-    const userMenus = await fetchMenuInfo()
+    const promiseList = []
+    promiseList.push(fetchUserInfo())
+    promiseList.push(fetchMenuInfo())
+    const resolveList = await Promise.all(promiseList)
+    const currentUser = resolveList[0]
+    const userMenus = resolveList[1] as TGetMenusByUserIdRes
+
     return {
       fetchUserInfo,
       fetchMenuInfo,

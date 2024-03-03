@@ -4,7 +4,6 @@ import { getTagList } from '@/services/modules/tags.service'
 import dataMapOptions from '@/utils/dataMapOptions'
 import { ProColumns } from '@ant-design/pro-components'
 import { Tag } from 'antd'
-import { TableDropdown } from '@ant-design/pro-components'
 
 const columns: ProColumns<IArticle>[] = [
   {
@@ -17,6 +16,7 @@ const columns: ProColumns<IArticle>[] = [
     dataIndex: 'title',
     copyable: true,
     ellipsis: true,
+    editable: false,
     formItemProps: {
       rules: [
         {
@@ -31,18 +31,21 @@ const columns: ProColumns<IArticle>[] = [
     dataIndex: 'description',
     ellipsis: true,
     hideInSearch: true,
+    editable: false,
   },
   {
     title: '分类',
-    dataIndex: ['category', 'name'],
-    ellipsis: true,
+    dataIndex: 'category',
     key: 'categoryId',
+    ellipsis: true,
     valueType: 'select',
+    editable: false,
     request: async () => {
       const { data } = await getCategoryList()
       return dataMapOptions(data, 'name')
     },
-    render: (_, entity) => {
+    render: (_, entity, index, action, schema) => {
+      console.log(schema)
       return (
         <Tag key={entity.category.id} color="red">
           {entity.category.name}
@@ -53,8 +56,8 @@ const columns: ProColumns<IArticle>[] = [
   {
     title: '标签',
     dataIndex: 'tags',
-    key: 'tags',
     valueType: 'treeSelect',
+    editable: false,
     fieldProps: {
       multiple: true,
     },
@@ -130,6 +133,7 @@ const columns: ProColumns<IArticle>[] = [
     valueType: 'dateTime',
     sorter: true,
     hideInSearch: true,
+    editable: false,
   },
   {
     title: '创建时间',
@@ -156,6 +160,7 @@ const columns: ProColumns<IArticle>[] = [
     valueType: 'dateTime',
     sorter: true,
     hideInSearch: true,
+    editable: false,
   },
   {
     title: '更新时间',
@@ -191,14 +196,6 @@ const columns: ProColumns<IArticle>[] = [
       <a href="#" target="_blank" rel="noopener noreferrer" key="view">
         查看
       </a>,
-      <TableDropdown
-        key="actionGroup"
-        onSelect={() => action?.reload()}
-        menus={[
-          { key: 'copy', name: '复制' },
-          { key: 'delete', name: '删除' },
-        ]}
-      />,
     ],
   },
 ]
