@@ -86,7 +86,7 @@ export default [
       {
         name: 'create-article',
         path: ARTICLE_CREATE_PATH,
-        component: './Article/CreateArticle',
+        component: './Article/ArticleCreate',
         access: 'normalRouteFilter',
       },
       {
