@@ -10,6 +10,7 @@ export const AM_USERS = '/users'
 export const AM_PAGEVIEWS = '/pageviews'
 export const AM_STATISTICS = '/statistics'
 export const AM_MENU = '/menu'
+export const AM_UPLOAD = '/upload'
 
 // Methods
 export const GET = 'GET'

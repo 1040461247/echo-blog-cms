@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import {
   DrawerForm,
   ProFormUploadButton,
@@ -11,14 +11,14 @@ import {
 import { getCategoryList } from '@/services/modules/categories.service'
 import dataMapOptions from '@/utils/dataMapOptions'
 import { getTagList } from '@/services/modules/tags.service'
-import { Form } from 'antd'
+import { Form, Image } from 'antd'
 import { Store } from 'antd/es/form/interface'
 
 // Types
 export interface IArticleSettingFormData {
   title: string
   description: string
-  coverImg: string
+  coverImg: any
   categoryId: number
   tags: number[]
   isSticky: boolean
@@ -31,6 +31,7 @@ const ArticleSettingModal: React.FC<{
   initialValues?: Store
 }> = ({ isOpen, onFinish, onOpenChange, initialValues }) => {
   const [form] = Form.useForm<IArticleSettingFormData>()
+  const [showInitialCover, setShowInitialCover] = useState(true)
 
   return (
     <DrawerForm<IArticleSettingFormData>
@@ -58,16 +59,28 @@ const ArticleSettingModal: React.FC<{
         placeholder="请输入描述"
       />
 
-      <ProFormUploadButton
-        name="coverImg"
-        label="文章封面"
-        max={1}
-        fieldProps={{
-          name: 'cover',
-        }}
-        action="/upload.do"
-        extra="选择文章封面配图"
-      />
+      <div>
+        <ProFormUploadButton
+          className="flex-1"
+          name="coverImg"
+          label="文章封面"
+          max={1}
+          accept="image/*"
+          onChange={(info) => {
+            const isChecked = info.fileList.length > 0
+            if (isChecked) {
+              setShowInitialCover(false)
+            } else {
+              setShowInitialCover(true)
+            }
+          }}
+        />
+        {initialValues?.coverUrl && showInitialCover && (
+          <div className="mb-6">
+            <Image width={200} height={100} src={initialValues.coverUrl} />
+          </div>
+        )}
+      </div>
 
       <ProFormSelect
         name="categoryId"

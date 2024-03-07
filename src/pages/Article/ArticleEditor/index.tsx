@@ -6,7 +6,13 @@ import { SaveOutlined, SendOutlined, SettingOutlined } from '@ant-design/icons'
 import ArticleSettingModal, { IArticleSettingFormData } from './c-cpns/ArticleSettingModal'
 import Vditor from 'vditor'
 import { isObjectEmpty, objectFilter } from '@/utils/objectUtils'
-import { IArticleDetail, ISaveArticleParams, getArticleById, saveArticle } from '@/services'
+import {
+  IArticleDetail,
+  ISaveArticleParams,
+  getArticleById,
+  saveArticle,
+  uploadAvatarCover,
+} from '@/services'
 import { useSearchParams } from '@umijs/max'
 
 export const ARTICLE_ID = 'articleId'
@@ -67,6 +73,7 @@ const CreateArtilce: React.FC = () => {
       ['coverImg'],
     ) as ISaveArticleParams
 
+    // 保存文章
     const { success, msg, data } = await saveArticle(articleData)
     if (success) {
       message.success(msg)
@@ -76,17 +83,39 @@ const CreateArtilce: React.FC = () => {
     } else {
       message.error(msg)
     }
+
+    // 上传文章封面
+    const curAtcId = Number(articleId) ?? data?.insertId
+    const isCheckedCover = formData?.coverImg?.length > 0
+    if (isCheckedCover && curAtcId) {
+      const coverFormData = new FormData()
+      const file = formData?.coverImg[0].originFileObj
+      coverFormData.append('cover', file)
+
+      const res = await uploadAvatarCover(curAtcId, coverFormData)
+      if (res.success) {
+        message.success(res.msg)
+      } else {
+        message.error(res.msg)
+      }
+    }
   }
 
   return (
     <PageContainer
       className="overflow-hidden -mt-8 -mb-16"
       footer={[
-        <Button key="setting" icon={<SettingOutlined />} onClick={() => setIsDrawerOpen(true)}>
-          设置
-        </Button>,
         <Button key="save" icon={<SaveOutlined />} onClick={handleSave}>
           保存
+        </Button>,
+        <Button
+          key="setting"
+          type="primary"
+          ghost
+          icon={<SettingOutlined />}
+          onClick={() => setIsDrawerOpen(true)}
+        >
+          设置
         </Button>,
         <Button key="publish" type="primary" size="large" icon={<SendOutlined />}>
           发布

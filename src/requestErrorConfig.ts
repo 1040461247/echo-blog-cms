@@ -1,6 +1,8 @@
 ﻿import type { RequestOptions } from '@@/plugin-request/request'
 import type { RequestConfig } from '@umijs/max'
 import { message } from 'antd'
+import { GET } from './services/constants'
+import getAuthorization from './utils/getAuthorization'
 
 // 与后端约定的响应数据格式
 interface ResponseStructure {
@@ -53,9 +55,11 @@ export const errorConfig: RequestConfig = {
   // 请求拦截器
   requestInterceptors: [
     (config: RequestOptions) => {
-      // 拦截请求配置，进行个性化处理。
-      const url = config?.url?.concat('?token = 123')
-      return { ...config, url }
+      const cfg = { ...config }
+      if (cfg.method?.toUpperCase() !== GET.toUpperCase()) {
+        cfg.headers = { ...cfg.headers, Authorization: getAuthorization() }
+      }
+      return cfg
     },
   ],
 

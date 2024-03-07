@@ -1,7 +1,6 @@
 import { request } from '@umijs/max'
 import { AM_ARTICLES, GET, PATCH, POST } from '../constants'
 import { SortOrder } from 'antd/es/table/interface'
-import getAuthorization from '@/utils/getAuthorization'
 
 // Types
 export type TArticleState = '0' | '1'
@@ -88,9 +87,6 @@ export async function updateArticleById(articleId: number, modifiedData: IUpdate
   return await request<API.BaseStructure>(`${AM_ARTICLES}/${articleId}`, {
     method: PATCH,
     data: modifiedData,
-    headers: {
-      Authorization: getAuthorization(),
-    },
   })
 }
 
@@ -98,8 +94,5 @@ export async function saveArticle(params: ISaveArticleParams) {
   return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/save`, {
     method: POST,
     data: params,
-    headers: {
-      Authorization: getAuthorization(),
-    },
   })
 }
