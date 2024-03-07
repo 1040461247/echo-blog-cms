@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import {
   DrawerForm,
   ProFormUploadButton,
@@ -8,17 +8,18 @@ import {
   ProFormTreeSelect,
   ProFormSwitch,
 } from '@ant-design/pro-components'
-import { FormInstance } from 'antd/lib'
 import { getCategoryList } from '@/services/modules/categories.service'
 import dataMapOptions from '@/utils/dataMapOptions'
 import { getTagList } from '@/services/modules/tags.service'
+import { Form } from 'antd'
+import { Store } from 'antd/es/form/interface'
 
 // Types
 export interface IArticleSettingFormData {
   title: string
   description: string
   coverImg: string
-  category: number
+  categoryId: number
   tags: number[]
   isSticky: boolean
 }
@@ -27,8 +28,10 @@ const ArticleSettingModal: React.FC<{
   isOpen: boolean
   onFinish: (formData: IArticleSettingFormData) => Promise<boolean | void>
   onOpenChange: (visible: boolean) => void
-  form: FormInstance<IArticleSettingFormData>
-}> = ({ isOpen, onFinish, onOpenChange, form }) => {
+  initialValues?: Store
+}> = ({ isOpen, onFinish, onOpenChange, initialValues }) => {
+  const [form] = Form.useForm<IArticleSettingFormData>()
+
   return (
     <DrawerForm<IArticleSettingFormData>
       title="文章设置"
@@ -39,6 +42,7 @@ const ArticleSettingModal: React.FC<{
       submitTimeout={2000}
       onFinish={onFinish}
       width={400}
+      initialValues={initialValues}
     >
       <ProFormText
         name="title"
@@ -62,11 +66,11 @@ const ArticleSettingModal: React.FC<{
           name: 'cover',
         }}
         action="/upload.do"
-        extra="请选择文章封面配图"
+        extra="选择文章封面配图"
       />
 
       <ProFormSelect
-        name="category"
+        name="categoryId"
         label="文章分类"
         request={async () => {
           const { data } = await getCategoryList()
@@ -93,4 +97,4 @@ const ArticleSettingModal: React.FC<{
   )
 }
 
-export default ArticleSettingModal
+export default memo(ArticleSettingModal)

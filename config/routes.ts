@@ -1,6 +1,6 @@
 ﻿import {
   ARTICLE_ATTACHMENT_PATH,
-  ARTICLE_CREATE_PATH,
+  ARTICLE_EDITOR_PATH,
   ARTICLE_LIST_PATH,
   ARTICLE_PATH,
   CATEGORY_PATH,
@@ -84,9 +84,9 @@ export default [
         access: 'normalRouteFilter',
       },
       {
-        name: 'create-article',
-        path: ARTICLE_CREATE_PATH,
-        component: './Article/ArticleCreate',
+        name: 'article-editor',
+        path: ARTICLE_EDITOR_PATH,
+        component: './Article/ArticleEditor',
         access: 'normalRouteFilter',
       },
       {

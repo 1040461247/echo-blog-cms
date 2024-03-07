@@ -6,5 +6,7 @@ declare namespace API {
     code: number
     msg: string
     data: T
+    success: boolean
+    total?: number
   }
 }

@@ -1,5 +1,5 @@
 import { request } from '@umijs/max'
-import { AM_ARTICLES, GET, PATCH } from '../constants'
+import { AM_ARTICLES, GET, PATCH, POST } from '../constants'
 import { SortOrder } from 'antd/es/table/interface'
 import getAuthorization from '@/utils/getAuthorization'
 
@@ -30,6 +30,10 @@ export interface IArticle {
   tags: { id: number; name: string }[]
 }
 
+export interface IArticleDetail extends IArticle {
+  content: string
+}
+
 interface IDateRange {
   startTime: string
   endTime: string
@@ -54,6 +58,19 @@ export interface IUpdateArticleParams {
   visibility?: TArticleVisibility
 }
 
+export interface ISaveArticleParams {
+  id?: string
+  title: string
+  content?: string
+  description?: string
+  categoryId: number
+  isSticky?: TArticleIsSticky
+  state?: TArticleState
+  visibility?: TArticleVisibility
+}
+
+type TSaveArticleRes = { insertId: number } | null
+
 export async function getArticleList(params: IArticleListParams, sort: Record<string, SortOrder>) {
   return await request<API.BaseStructure<IArticle[]>>(`${AM_ARTICLES}/query`, {
     method: GET,
@@ -61,10 +78,26 @@ export async function getArticleList(params: IArticleListParams, sort: Record<st
   })
 }
 
+export async function getArticleById(articleId: number) {
+  return await request<API.BaseStructure<IArticleDetail>>(`${AM_ARTICLES}/${articleId}`, {
+    method: GET,
+  })
+}
+
 export async function updateArticleById(articleId: number, modifiedData: IUpdateArticleParams) {
   return await request<API.BaseStructure>(`${AM_ARTICLES}/${articleId}`, {
     method: PATCH,
     data: modifiedData,
+    headers: {
+      Authorization: getAuthorization(),
+    },
+  })
+}
+
+export async function saveArticle(params: ISaveArticleParams) {
+  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/save`, {
+    method: POST,
+    data: params,
     headers: {
       Authorization: getAuthorization(),
     },

@@ -51,7 +51,7 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
   'menu.article': '文章管理',
   'menu.article.article-list': '文章列表',
-  'menu.article.create-article': '创建文章',
+  'menu.article.article-editor': '编辑文章',
   'menu.article.article-attachment': '附件列表',
   'menu.category': '分类管理',
   'menu.tag': '标签管理',
@@ -64,4 +64,4 @@ export default {
   'menu.system.system-role': '角色列表',
   'menu.system.system-resource': '资源列表',
   'menu.operation-log': '操作日志',
-};
+}

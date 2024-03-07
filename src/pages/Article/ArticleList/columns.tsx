@@ -1,9 +1,11 @@
+import { ARTICLE_EDITOR_PATH } from '@/constants'
 import { IArticle } from '@/services'
 import { getCategoryList } from '@/services/modules/categories.service'
 import { getTagList } from '@/services/modules/tags.service'
 import dataMapOptions from '@/utils/dataMapOptions'
 import { ProColumns } from '@ant-design/pro-components'
 import { Tag } from 'antd'
+import { ARTICLE_ID } from '../ArticleEditor'
 
 const columns: ProColumns<IArticle>[] = [
   {
@@ -193,7 +195,11 @@ const columns: ProColumns<IArticle>[] = [
       >
         编辑
       </a>,
-      <a href="#" target="_blank" rel="noopener noreferrer" key="view">
+      <a
+        href={`${ARTICLE_EDITOR_PATH}?${ARTICLE_ID}=${record.id}`}
+        rel="noopener noreferrer"
+        key="view"
+      >
         查看
       </a>,
     ],
