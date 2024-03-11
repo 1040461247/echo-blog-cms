@@ -14,6 +14,7 @@ import {
   uploadAvatarCover,
 } from '@/services'
 import { useSearchParams } from '@umijs/max'
+import genUuid from '@/utils/genUuid'
 
 export const ARTICLE_ID = 'articleId'
 
@@ -22,6 +23,7 @@ const CreateArtilce: React.FC = () => {
   const [formData, setFormData] = useState<IArticleSettingFormData>()
   const [initialData, setInitialData] = useState<IArticleDetail>()
   const [vditor, setVditor] = useState<Vditor>()
+  const [mark, setMark] = useState<string>()
   const [searchParams, setSearchParams] = useSearchParams()
   const initialSettingData = useMemo(
     () => ({
@@ -36,12 +38,14 @@ const CreateArtilce: React.FC = () => {
   )
 
   useEffect(() => {
-    // 获取要编辑的文章内容
     const articleId = searchParams.get(ARTICLE_ID)
     if (articleId) {
+      // 获取要编辑的文章内容
       getArticleById(Number(articleId)).then((articleData) => {
         setInitialData(articleData.data)
       })
+    } else {
+      setMark(genUuid())
     }
   }, [])
 
@@ -49,6 +53,10 @@ const CreateArtilce: React.FC = () => {
     // 编辑文章时，设置文章初始内容
     if (initialData?.content && vditor) {
       vditor.setValue(initialData.content)
+    }
+
+    return () => {
+      vditor?.clearCache()
     }
   }, [initialData, vditor])
 
@@ -126,7 +134,7 @@ const CreateArtilce: React.FC = () => {
         breadcrumbRender: () => false,
       }}
     >
-      <MdEditor className="-mx-10" setVditor={setVditor} />
+      <MdEditor className="-mx-10" setVditor={setVditor} mark={mark} />
 
       <ArticleSettingModal
         isOpen={isDrawerOpen}

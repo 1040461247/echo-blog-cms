@@ -155,6 +155,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  */
 export const request: RequestConfig = {
   timeout: 5000,
-  baseURL: process.env.API_BASE_URL ?? 'http://localhost:8000',
+  baseURL: API_BASE_URL_ENV,
   ...errorConfig,
 }

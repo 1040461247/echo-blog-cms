@@ -1,13 +1,19 @@
 // https://umijs.org/config/
-import { defineConfig } from '@umijs/max';
-import { join } from 'path';
-import defaultSettings from './defaultSettings';
-import proxy from './proxy';
-import routes from './routes';
+import { defineConfig } from '@umijs/max'
+import { join } from 'path'
+import defaultSettings from './defaultSettings'
+import proxy from './proxy'
+import routes from './routes'
 
-const { REACT_APP_ENV = 'dev' } = process.env;
+const { REACT_APP_ENV = 'dev' } = process.env
 
 export default defineConfig({
+  // 环境变量
+  define: {
+    PORT_ENV: process.env.PORT,
+    API_BASE_URL_ENV: process.env.API_BASE_URL,
+  },
+
   /**
    * @name 开启 hash 模式
    * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。
@@ -153,4 +159,4 @@ export default defineConfig({
   },
   esbuildMinifyIIFE: true,
   requestRecord: {},
-});
+})
