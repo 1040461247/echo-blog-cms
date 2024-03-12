@@ -54,7 +54,6 @@ const CreateArtilce: React.FC = () => {
     if (initialData?.content && vditor) {
       vditor.setValue(initialData.content)
     }
-
     return () => {
       vditor?.clearCache()
     }
@@ -73,15 +72,14 @@ const CreateArtilce: React.FC = () => {
       return
     }
 
-    // 提交保存
+    // 保存文章
     const content = vditor?.getValue()
     const articleId = searchParams.get(ARTICLE_ID)
     const articleData = objectFilter(
-      { ...formData, content, state: '0', visibility: '0', id: articleId },
+      { ...formData, content, state: '0', visibility: '0', id: articleId, mark },
       ['coverImg'],
     ) as ISaveArticleParams
 
-    // 保存文章
     const { success, msg, data } = await saveArticle(articleData)
     if (success) {
       message.success(msg)

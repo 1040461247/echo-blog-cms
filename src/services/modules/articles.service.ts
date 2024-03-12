@@ -66,6 +66,7 @@ export interface ISaveArticleParams {
   isSticky?: TArticleIsSticky
   state?: TArticleState
   visibility?: TArticleVisibility
+  mark?: string
 }
 
 type TSaveArticleRes = { insertId: number } | null
