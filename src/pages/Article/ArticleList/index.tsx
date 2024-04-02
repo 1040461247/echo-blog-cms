@@ -1,4 +1,9 @@
-import { IArticle, getArticleList, updateArticleById } from '@/services/modules/articles.service'
+import {
+  IArticle,
+  deleteArticleById,
+  getArticleList,
+  updateArticleById,
+} from '@/services/modules/articles.service'
 import type { ActionType } from '@ant-design/pro-components'
 import { ProTable, PageContainer, type ColumnsState } from '@ant-design/pro-components'
 import { useRef, useState } from 'react'
@@ -23,9 +28,10 @@ const ArticleList: React.FC = () => {
         columns={columns}
         actionRef={actionRef}
         cardBordered
-        request={async (params, sort) => {
-          return await getArticleList(params, sort)
+        request={(params, sort) => {
+          return getArticleList(params, sort)
         }}
+        rowKey="id"
         editable={{
           type: 'single',
           onSave: (_, record) => {
@@ -33,12 +39,14 @@ const ArticleList: React.FC = () => {
             const modifiedData = { isSticky, state, visibility }
             return updateArticleById(record.id, modifiedData)
           },
+          onDelete: (key) => {
+            return deleteArticleById(Number(key))
+          },
         }}
         columnsState={{
           value: columnsStateMap,
           onChange: setColumnsStateMap,
         }}
-        rowKey="id"
         search={{
           labelWidth: 'auto',
           defaultCollapsed: false,

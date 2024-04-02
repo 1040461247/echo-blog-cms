@@ -200,7 +200,7 @@ const columns: ProColumns<IArticle>[] = [
         rel="noopener noreferrer"
         key="view"
       >
-        查看
+        详情
       </a>,
     ],
   },

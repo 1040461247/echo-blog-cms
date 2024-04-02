@@ -3,7 +3,7 @@ import { AM_UPLOAD } from '@/services/constants'
 
 import getAuthorization from '@/utils/getAuthorization'
 import { useSearchParams } from '@umijs/max'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useEffect } from 'react'
 import Vditor from 'vditor'
 import 'vditor/src/assets/less/index.less'
 
@@ -13,16 +13,6 @@ const MdEditor: React.FC<{
   mark?: string
 }> = ({ className, setVditor, mark }) => {
   const [searchParams] = useSearchParams()
-  const [uploadUrl, setUploadUrl] = useState<{ basePath: string; queryStr: string }>()
-
-  useEffect(() => {
-    setUploadUrl({
-      basePath: `${API_BASE_URL_ENV}${AM_UPLOAD}`,
-      queryStr: searchParams.get(ARTICLE_ID)
-        ? `?articleId=${searchParams.get(ARTICLE_ID)}`
-        : `?mark=${mark}`,
-    })
-  }, [searchParams, mark])
 
   useEffect(() => {
     const vditor = new Vditor('vditor', {
@@ -45,8 +35,16 @@ const MdEditor: React.FC<{
         position: 'right',
       },
       upload: {
-        url: `${uploadUrl?.basePath}/illustration${uploadUrl?.queryStr}`,
-        linkToImgUrl: `${uploadUrl?.basePath}/illustration/offsite${uploadUrl?.queryStr}`,
+        url: `${API_BASE_URL_ENV}${AM_UPLOAD}/illustration${
+          searchParams.get(ARTICLE_ID)
+            ? `?articleId=${searchParams.get(ARTICLE_ID)}`
+            : `?mark=${mark}`
+        }`,
+        linkToImgUrl: `${API_BASE_URL_ENV}${AM_UPLOAD}/illustration/offsite${
+          searchParams.get(ARTICLE_ID)
+            ? `?articleId=${searchParams.get(ARTICLE_ID)}`
+            : `?mark=${mark}`
+        }`,
         linkToImgFormat(responseText: string) {
           const resJson = JSON.parse(responseText)
           if (resJson.success) {
@@ -62,7 +60,7 @@ const MdEditor: React.FC<{
         fieldName: 'illustration',
       },
     })
-  }, [uploadUrl])
+  }, [mark])
 
   return <div className={`vditor ${className}`} id="vditor" />
 }

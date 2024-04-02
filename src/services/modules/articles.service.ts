@@ -1,5 +1,5 @@
 import { request } from '@umijs/max'
-import { AM_ARTICLES, GET, PATCH, POST } from '../constants'
+import { AM_ARTICLES, DELETE, GET, PATCH, POST } from '../constants'
 import { SortOrder } from 'antd/es/table/interface'
 
 // Types
@@ -66,6 +66,7 @@ export interface ISaveArticleParams {
   isSticky?: TArticleIsSticky
   state?: TArticleState
   visibility?: TArticleVisibility
+  mark?: string
 }
 
 type TSaveArticleRes = { insertId: number } | null
@@ -94,5 +95,11 @@ export async function saveArticle(params: ISaveArticleParams) {
   return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/save`, {
     method: POST,
     data: params,
+  })
+}
+
+export async function deleteArticleById(articleId: number) {
+  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/${articleId}`, {
+    method: DELETE,
   })
 }
