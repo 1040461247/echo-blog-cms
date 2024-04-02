@@ -11,15 +11,14 @@ export interface ICategory {
   articleCount: number
 }
 
-// Types
 interface IDateRange {
   startTime: string
   endTime: string
 }
 
 interface ICategoryListParams {
-  current?: string
-  pageSize?: string
+  current?: string | number
+  pageSize?: string | number
   id?: string | number
   name?: string
   createTime?: IDateRange
@@ -29,7 +28,7 @@ interface ICategoryListParams {
 // Services
 export async function getCategoryList(
   params: ICategoryListParams,
-  sort: Record<string, SortOrder>,
+  sort?: Record<string, SortOrder>,
 ) {
   return await request<API.BaseStructure<ICategory[]>>(`${AM_CATEGORIES}/query`, {
     metho: GET,

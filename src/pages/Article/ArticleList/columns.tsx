@@ -43,7 +43,7 @@ const columns: ProColumns<IArticle>[] = [
     valueType: 'select',
     editable: false,
     request: async () => {
-      const { data } = await getCategoryList()
+      const { data } = await getCategoryList({ current: 1, pageSize: 1000 })
       return dataMapOptions(data, 'name')
     },
     render: (_, entity, index, action, schema) => {
@@ -64,10 +64,11 @@ const columns: ProColumns<IArticle>[] = [
       multiple: true,
     },
     request: async () => {
-      const { data } = await getTagList()
+      const { data } = await getTagList({ current: 1, pageSize: 1000 })
       return dataMapOptions(data, 'name')
     },
     render: (_, entity) => {
+      console.log(entity.tags)
       return entity.tags?.map((item) => (
         <Tag key={item.id} color="orange">
           {item.name}

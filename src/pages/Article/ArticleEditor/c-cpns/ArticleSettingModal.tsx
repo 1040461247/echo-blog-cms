@@ -86,7 +86,7 @@ const ArticleSettingModal: React.FC<{
         name="categoryId"
         label="文章分类"
         request={async () => {
-          const { data } = await getCategoryList()
+          const { data } = await getCategoryList({ current: 1, pageSize: 1000 })
           return dataMapOptions(data, 'name')
         }}
         placeholder="请选择分类"
@@ -97,7 +97,7 @@ const ArticleSettingModal: React.FC<{
         name="tags"
         label="文章标签"
         request={async () => {
-          const { data } = await getTagList()
+          const { data } = await getTagList({ current: 1, pageSize: 1000 })
           return dataMapOptions(data, 'name')
         }}
         placeholder="请选择标签"

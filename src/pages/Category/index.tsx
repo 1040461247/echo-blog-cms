@@ -8,7 +8,7 @@ import {
 } from '@/services/modules/categories.service'
 import columns from './columns'
 import type { ActionType } from '@ant-design/pro-components'
-import CategoryCreateModal from './c-cpns/categoryCreateModal'
+import CategoryCreateModal from './c-cpns/CategoryCreateModal'
 
 const Category: React.FC = () => {
   const actionRef = useRef<ActionType>()
