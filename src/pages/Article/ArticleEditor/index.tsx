@@ -8,9 +8,9 @@ import Vditor from 'vditor'
 import { isObjectEmpty, objectFilter } from '@/utils/objectUtils'
 import {
   IArticleDetail,
-  ISaveArticleParams,
+  ICommitArticleParams,
   getArticleById,
-  saveArticle,
+  commitArticle,
   uploadAvatarCover,
 } from '@/services'
 import { useSearchParams } from '@umijs/max'
@@ -65,7 +65,7 @@ const CreateArtilce: React.FC = () => {
     return Promise.resolve(true)
   }, [])
 
-  async function handleSave() {
+  async function handleCommitArticle(type: 'save' | 'publish') {
     if (isObjectEmpty(formData)) {
       message.error('请完善文章设置')
       setIsDrawerOpen(true)
@@ -75,12 +75,11 @@ const CreateArtilce: React.FC = () => {
     // 保存文章
     const content = vditor?.getValue()
     const articleId = searchParams.get(ARTICLE_ID)
-    const articleData = objectFilter(
-      { ...formData, content, state: '0', visibility: '0', id: articleId, mark },
-      ['coverImg'],
-    ) as ISaveArticleParams
+    const articleData = objectFilter({ ...formData, content, id: articleId, mark, type }, [
+      'coverImg',
+    ]) as ICommitArticleParams
 
-    const { success, msg, data } = await saveArticle(articleData)
+    const { success, msg, data } = await commitArticle(articleData)
     if (success) {
       message.success(msg)
       if (data?.insertId) {
@@ -111,7 +110,7 @@ const CreateArtilce: React.FC = () => {
     <PageContainer
       className="overflow-hidden -mt-8 -mb-16"
       footer={[
-        <Button key="save" icon={<SaveOutlined />} onClick={handleSave}>
+        <Button key="save" icon={<SaveOutlined />} onClick={() => handleCommitArticle('save')}>
           保存
         </Button>,
         <Button
@@ -123,7 +122,13 @@ const CreateArtilce: React.FC = () => {
         >
           设置
         </Button>,
-        <Button key="publish" type="primary" size="large" icon={<SendOutlined />}>
+        <Button
+          key="publish"
+          type="primary"
+          size="large"
+          icon={<SendOutlined />}
+          onClick={() => handleCommitArticle('publish')}
+        >
           发布
         </Button>,
       ]}
@@ -132,7 +137,12 @@ const CreateArtilce: React.FC = () => {
         breadcrumbRender: () => false,
       }}
     >
-      <MdEditor className="-mx-10" setVditor={setVditor} mark={mark} />
+      <MdEditor
+        className="-mx-10"
+        setVditor={setVditor}
+        mark={mark}
+        onSave={() => handleCommitArticle('save')}
+      />
 
       <ArticleSettingModal
         isOpen={isDrawerOpen}

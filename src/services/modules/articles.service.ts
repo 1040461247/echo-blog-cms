@@ -57,16 +57,15 @@ export interface IUpdateArticleParams {
   visibility?: TArticleVisibility
 }
 
-export interface ISaveArticleParams {
+export interface ICommitArticleParams {
   id?: string
   title: string
   content?: string
   description?: string
   categoryId: number
   isSticky?: TArticleIsSticky
-  state?: TArticleState
-  visibility?: TArticleVisibility
   mark?: string
+  type: 'save' | 'publish'
 }
 
 type TSaveArticleRes = { insertId: number } | null
@@ -91,8 +90,8 @@ export async function updateArticleById(articleId: number, modifiedData: IUpdate
   })
 }
 
-export async function saveArticle(params: ISaveArticleParams) {
-  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/save`, {
+export async function commitArticle(params: ICommitArticleParams) {
+  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/commit`, {
     method: POST,
     data: params,
   })

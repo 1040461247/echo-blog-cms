@@ -11,8 +11,17 @@ const MdEditor: React.FC<{
   className?: string
   setVditor: (v: Vditor) => void
   mark?: string
-}> = ({ className, setVditor, mark }) => {
+  onSave: () => void
+}> = ({ className, setVditor, mark, onSave }) => {
   const [searchParams] = useSearchParams()
+
+  // ctrl+s保存文章
+  const handleSave: React.KeyboardEventHandler = (e) => {
+    if (e.ctrlKey && e.code === 'KeyS') {
+      e.preventDefault()
+      onSave()
+    }
+  }
 
   useEffect(() => {
     const vditor = new Vditor('vditor', {
@@ -62,7 +71,7 @@ const MdEditor: React.FC<{
     })
   }, [mark])
 
-  return <div className={`vditor ${className}`} id="vditor" />
+  return <div className={`vditor ${className}`} id="vditor" onKeyDown={handleSave} />
 }
 
 export default memo(MdEditor)

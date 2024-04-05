@@ -10,7 +10,7 @@ const columns: ProColumns<ICategory>[] = [
     width: 48,
   },
   {
-    title: '标签名',
+    title: '分类名',
     dataIndex: 'name',
     copyable: true,
     ellipsis: true,
