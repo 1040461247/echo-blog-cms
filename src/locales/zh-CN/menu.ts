@@ -62,6 +62,6 @@ export default {
   'menu.system': '系统管理',
   'menu.system.system-user': '用户列表',
   'menu.system.system-role': '角色列表',
-  'menu.system.system-resource': '资源列表',
+  'menu.system.system-permission': '资源列表',
   'menu.operation-log': '操作日志',
 }

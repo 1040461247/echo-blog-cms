@@ -27,28 +27,28 @@ interface ITagListParams {
 
 // Services
 export async function getTagList(params: ITagListParams, sort?: Record<string, SortOrder>) {
-  return await request<API.BaseStructure<ITag[]>>(`${AM_TAGS}/query`, {
+  return request<API.BaseStructure<ITag[]>>(`${AM_TAGS}/query`, {
     metho: GET,
     params: { ...params, sort },
   })
 }
 
 export async function createTag(tag: string) {
-  return await request<API.BaseStructure>(`${AM_TAGS}`, {
+  return request<API.BaseStructure>(`${AM_TAGS}`, {
     method: POST,
     data: { tag },
   })
 }
 
 export async function updateTagById(tagId: number, tag: string) {
-  return await request<API.BaseStructure>(`${AM_TAGS}/${tagId}`, {
+  return request<API.BaseStructure>(`${AM_TAGS}/${tagId}`, {
     method: PATCH,
     data: { tag },
   })
 }
 
 export async function deleteTagById(tagId: number) {
-  return await request<API.BaseStructure>(`${AM_TAGS}/${tagId}`, {
+  return request<API.BaseStructure>(`${AM_TAGS}/${tagId}`, {
     method: DELETE,
   })
 }

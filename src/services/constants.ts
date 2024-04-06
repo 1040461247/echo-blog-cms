@@ -11,6 +11,7 @@ export const AM_PAGEVIEWS = '/pageviews'
 export const AM_STATISTICS = '/statistics'
 export const AM_MENU = '/menu'
 export const AM_UPLOAD = '/upload'
+export const AM_PERMISSION = '/permission'
 
 // Methods
 export const GET = 'GET'

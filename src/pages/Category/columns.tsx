@@ -7,7 +7,7 @@ const columns: ProColumns<ICategory>[] = [
     title: 'ID',
     dataIndex: 'id',
     editable: false,
-    width: 48,
+    width: 38,
   },
   {
     title: '分类名',

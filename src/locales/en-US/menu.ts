@@ -62,6 +62,6 @@ export default {
   'menu.system': 'System',
   'menu.system.system-user': 'System User',
   'menu.system.system-role': 'System Role',
-  'menu.system.system-resource': 'System Resource',
+  'menu.system.system-permission': 'System Permission',
   'menu.operation-log': 'Operation Log',
 }

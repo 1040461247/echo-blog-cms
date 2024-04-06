@@ -10,7 +10,7 @@ export type TGetMenusByUserIdRes = {
 
 // Services
 export async function getMenusByUserId(userId: number) {
-  return await request<API.BaseStructure<TGetMenusByUserIdRes>>(`${AM_MENU}/${userId}`, {
+  return request<API.BaseStructure<TGetMenusByUserIdRes>>(`${AM_MENU}/${userId}`, {
     method: GET,
   })
 }

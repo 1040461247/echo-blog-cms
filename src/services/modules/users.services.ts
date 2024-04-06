@@ -33,14 +33,14 @@ interface IAuthorizedRes {
 
 // Services
 export async function login(fetchData: ILoginParams) {
-  return await request<API.BaseStructure<ILoginRes>>('/cms-login', {
+  return request<API.BaseStructure<ILoginRes>>('/cms-login', {
     method: POST,
     data: fetchData,
   })
 }
 
 export async function authorized() {
-  return await request<API.BaseStructure<IAuthorizedRes>>('/cms-authorized', {
+  return request<API.BaseStructure<IAuthorizedRes>>('/cms-authorized', {
     method: GET,
     headers: {
       Authorization: getAuthorization(),
@@ -49,7 +49,7 @@ export async function authorized() {
 }
 
 export async function getUserInfo(userId: number) {
-  return await request<API.BaseStructure<IGetUserInfoRes>>(`${AM_USERS}/${userId}`, {
+  return request<API.BaseStructure<IGetUserInfoRes>>(`${AM_USERS}/${userId}`, {
     method: GET,
   })
 }

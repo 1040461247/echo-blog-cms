@@ -71,34 +71,34 @@ export interface ICommitArticleParams {
 type TSaveArticleRes = { insertId: number } | null
 
 export async function getArticleList(params: IArticleListParams, sort: Record<string, SortOrder>) {
-  return await request<API.BaseStructure<IArticle[]>>(`${AM_ARTICLES}/query`, {
+  return request<API.BaseStructure<IArticle[]>>(`${AM_ARTICLES}/query`, {
     method: GET,
     params: { ...params, sort },
   })
 }
 
 export async function getArticleById(articleId: number) {
-  return await request<API.BaseStructure<IArticleDetail>>(`${AM_ARTICLES}/${articleId}`, {
+  return request<API.BaseStructure<IArticleDetail>>(`${AM_ARTICLES}/${articleId}`, {
     method: GET,
   })
 }
 
 export async function updateArticleById(articleId: number, modifiedData: IUpdateArticleParams) {
-  return await request<API.BaseStructure>(`${AM_ARTICLES}/${articleId}`, {
+  return request<API.BaseStructure>(`${AM_ARTICLES}/${articleId}`, {
     method: PATCH,
     data: modifiedData,
   })
 }
 
 export async function commitArticle(params: ICommitArticleParams) {
-  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/commit`, {
+  return request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/commit`, {
     method: POST,
     data: params,
   })
 }
 
 export async function deleteArticleById(articleId: number) {
-  return await request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/${articleId}`, {
+  return request<API.BaseStructure<TSaveArticleRes>>(`${AM_ARTICLES}/${articleId}`, {
     method: DELETE,
   })
 }

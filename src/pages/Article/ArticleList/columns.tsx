@@ -68,7 +68,6 @@ const columns: ProColumns<IArticle>[] = [
       return dataMapOptions(data, 'name')
     },
     render: (_, entity) => {
-      console.log(entity.tags)
       return entity.tags?.map((item) => (
         <Tag key={item.id} color="orange">
           {item.name}
