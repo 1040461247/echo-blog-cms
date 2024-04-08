@@ -5,19 +5,8 @@ import { TGetMenusByUserIdRes } from './services'
  * */
 export default function access(initialState: { userMenus?: TGetMenusByUserIdRes } | undefined) {
   const userMenus = initialState?.userMenus ?? []
-  const authObj = {}
 
-  if (userMenus) {
-    Object.assign(authObj, {
-      normalRouteFilter: (route: any) => {
-        for (const menu of userMenus) {
-          if (menu.name === route.name) {
-            return true
-          }
-        }
-      },
-    })
+  return {
+    normalRouteFilter: (route: any) => userMenus.find((item) => item.name === route.name),
   }
-
-  return authObj
 }

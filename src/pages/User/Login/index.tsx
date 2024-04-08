@@ -1,7 +1,7 @@
 import { Footer } from '@/components'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { LoginForm, ProFormText } from '@ant-design/pro-components'
-import { FormattedMessage, history, SelectLang, useIntl, useModel, Helmet } from '@umijs/max'
+import { history, SelectLang, useModel, Helmet } from '@umijs/max'
 import { message } from 'antd'
 import Settings from '../../../../config/defaultSettings'
 import React from 'react'
@@ -60,7 +60,6 @@ const Lang = () => {
 const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState')
   const { styles } = useStyles()
-  const intl = useIntl()
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.()
@@ -92,11 +91,7 @@ const Login: React.FC = () => {
 
       if (loginRes.data) {
         // 登录成功
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        })
-        message.success(defaultLoginSuccessMessage)
+        message.success('登录成功')
         cache.setCache(USER_AUTH, loginRes.data)
         // 获取用户及菜单信息
         await fetchMenuInfo()
@@ -108,24 +103,14 @@ const Login: React.FC = () => {
         message.error(loginRes.msg)
       }
     } catch (error) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      })
-      message.error(defaultLoginFailureMessage)
+      message.error('登录失败，请重试')
     }
   }
 
   return (
     <div className={styles.container}>
       <Helmet>
-        <title>
-          {intl.formatMessage({
-            id: 'menu.login',
-            defaultMessage: '登录页',
-          })}
-          - {Settings.title}
-        </title>
+        <title>登录页 - {Settings.title}</title>
       </Helmet>
       <Lang />
       <div
@@ -139,9 +124,8 @@ const Login: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
-          logo={<img alt="logo" src="/logo.svg" />}
-          title="Echo Blog"
-          subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+          title="Echo Blog CMS"
+          subTitle="欢迎来到EchoBlogCMS"
           initialValues={{
             autoLogin: true,
           }}
@@ -155,19 +139,11 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <UserOutlined />,
             }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.username.placeholder',
-              defaultMessage: '请输入用户名',
-            })}
+            placeholder="请输入用户名"
             rules={[
               {
                 required: true,
-                message: (
-                  <FormattedMessage
-                    id="pages.login.username.required"
-                    defaultMessage="请输入用户名!"
-                  />
-                ),
+                message: '请输入用户名!',
               },
             ]}
           />
@@ -178,19 +154,11 @@ const Login: React.FC = () => {
               size: 'large',
               prefix: <LockOutlined />,
             }}
-            placeholder={intl.formatMessage({
-              id: 'pages.login.password.placeholder',
-              defaultMessage: '请输入密码',
-            })}
+            placeholder="请输入密码"
             rules={[
               {
                 required: true,
-                message: (
-                  <FormattedMessage
-                    id="pages.login.password.required"
-                    defaultMessage="请输入密码！"
-                  />
-                ),
+                message: '请输入密码！',
               },
             ]}
           />

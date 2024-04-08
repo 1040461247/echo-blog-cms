@@ -14,9 +14,9 @@ const Settings: ProLayoutProps & {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Echo Blog',
+  title: 'Echo Blog CMS',
   pwa: true,
-  logo: '/logo.svg',
+  logo: '/logo.png',
   iconfontUrl: '',
 }
 

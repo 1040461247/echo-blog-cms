@@ -84,7 +84,7 @@ export default defineConfig({
    */
   title: 'Echo Blog',
   layout: {
-    locale: true,
+    locale: false,
     ...defaultSettings,
   },
   /**
@@ -102,10 +102,11 @@ export default defineConfig({
    */
   locale: {
     // default zh-CN
+    useLocalStorage: false,
     default: 'zh-CN',
-    antd: true,
+    antd: false,
     // default true, when it is true, will use `navigator.language` overwrite default
-    baseNavigator: true,
+    baseNavigator: false,
   },
   /**
    * @name antd 插件
