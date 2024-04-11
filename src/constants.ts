@@ -18,5 +18,5 @@ export const FRIEND_APPLY_PATH = `${FRIEND_PATH}/apply`
 export const SYSTEM_PATH = '/system'
 export const SYSTEM_USER_PATH = `${SYSTEM_PATH}/user`
 export const SYSTEM_ROLE_PATH = `${SYSTEM_PATH}/role`
-export const SYSTEM_PERMISSION_PATH = `${SYSTEM_PATH}/permission`
+export const SYSTEM_MENU_PATH = `${SYSTEM_PATH}/menu`
 export const OPERATION_LOG_PATH = '/log'
