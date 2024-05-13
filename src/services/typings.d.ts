@@ -9,4 +9,9 @@ declare namespace API {
     success: boolean
     total?: number
   }
+
+  interface IDateRange {
+    startTime: string
+    endTime: string
+  }
 }

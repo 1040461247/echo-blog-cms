@@ -9,9 +9,9 @@ export const AM_TAGS = '/tags'
 export const AM_USERS = '/users'
 export const AM_PAGEVIEWS = '/pageviews'
 export const AM_STATISTICS = '/statistics'
-export const AM_MENU = '/menu'
+export const AM_MENU = '/menus'
 export const AM_UPLOAD = '/upload'
-export const AM_PERMISSION = '/permission'
+export const AM_ROLE = '/roles'
 
 // Methods
 export const GET = 'GET'

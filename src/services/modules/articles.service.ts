@@ -33,11 +33,6 @@ export interface IArticleDetail extends IArticle {
   content: string
 }
 
-interface IDateRange {
-  startTime: string
-  endTime: string
-}
-
 export interface IArticleListParams {
   current?: number
   pageSize?: number
@@ -47,8 +42,8 @@ export interface IArticleListParams {
   state?: TArticleState
   visibility?: TArticleVisibility
   isSticky?: TArticleIsSticky
-  createTime?: IDateRange
-  endTime?: IDateRange
+  createTime?: API.IDateRange
+  endTime?: API.IDateRange
 }
 
 export interface IUpdateArticleParams {

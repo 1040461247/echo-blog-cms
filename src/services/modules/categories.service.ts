@@ -11,18 +11,13 @@ export interface ICategory {
   articleCount: number
 }
 
-interface IDateRange {
-  startTime: string
-  endTime: string
-}
-
 interface ICategoryListParams {
   current?: string | number
   pageSize?: string | number
   id?: string | number
   name?: string
-  createTime?: IDateRange
-  updateTime?: IDateRange
+  createTime?: API.IDateRange
+  updateTime?: API.IDateRange
 }
 
 // Services

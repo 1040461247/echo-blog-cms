@@ -11,18 +11,13 @@ export interface ITag {
   articleCount: number
 }
 
-interface IDateRange {
-  startTime: string
-  endTime: string
-}
-
 interface ITagListParams {
   current?: string | number
   pageSize?: string | number
   id?: string | number
   name?: string
-  createTime?: IDateRange
-  updateTime?: IDateRange
+  createTime?: API.IDateRange
+  updateTime?: API.IDateRange
 }
 
 // Services
